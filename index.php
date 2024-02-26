@@ -36,8 +36,8 @@
                         <li class="dropdown">
                             <a href="#">JOIN US ▼</a>
                             <div class="dropdown-content">
-                                <a href="volunteerForm.php">VOLUNTEER</a>
-                                <a href="ambassadorForm.php">AMBASSADOR</a>
+                                <a href="https://bit.ly/SilongCy6MembershipApplication">VOLUNTEER</a>
+                                <a href="https://bit.ly/SilongAmbassadorApplication">AMBASSADOR</a>
                             </div>
                         </li>
                     </ul>
