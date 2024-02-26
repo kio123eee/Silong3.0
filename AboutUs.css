@@ -97,7 +97,7 @@
 .vision-icon {
     width: 200px; /* Adjust the width of the mission icon */
     height: 140px; /* Adjust the height of the mission icon */
-    background-image: url('vision.png'); /* Replace with the path to your vision icon image */
+    background-image: url('Vision.png'); /* Replace with the path to your vision icon image */
     background-size: cover;
     border-radius: 50%;
     margin: 0 auto 10px;
