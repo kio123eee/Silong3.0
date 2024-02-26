@@ -7,8 +7,8 @@ $message = array(); // Initialize the message array
 
 if(isset($_POST['submit'])){
    // Sanitize and validate input
-   $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-   $pass = filter_var($_POST['pass'], FILTER_SANITIZE_STRING);
+   $name = filter_var($_POST['name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+   $pass = filter_var($_POST['pass'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
    
    // Hash the password securely
    $pass_hash = sha1($pass); // Note: SHA-1 is not recommended for password hashing, consider using stronger algorithms like bcrypt
