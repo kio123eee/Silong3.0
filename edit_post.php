@@ -11,7 +11,6 @@ if(!isset($admin_id)){
 }
 
 if(isset($_POST['save'])){
-
    $post_id = isset($_GET['id']);
    $post_id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
    $mod_by = $_POST['mod_by'];
