@@ -1,8 +1,9 @@
 <?php
-
 include 'components/connect.php'; // Include the file to connect to the database
 
 session_start();
+
+$message = array(); // Initialize the message array
 
 if(isset($_POST['submit'])){
    // Sanitize and validate input
@@ -29,10 +30,9 @@ if(isset($_POST['submit'])){
       exit; // It's good practice to exit after a redirect to prevent further execution
    } else {
       // Incorrect username or password
-      $message = 'Incorrect username or password!';
+      $message[] = 'Incorrect username or password!';
    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -53,11 +53,11 @@ if(isset($_POST['submit'])){
 <body style="padding-left: 0 !important;">
 
 <?php
-if(isset($message)){
-   foreach($message as $message){
+if(!empty($message)){
+   foreach($message as $msg){
       echo '
       <div class="message">
-         <span>'.$message.'</span>
+         <span>'.$msg.'</span>
          <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
       </div>
       ';
@@ -71,12 +71,8 @@ if(isset($message)){
    </a>
 </div>
 
-
-
 <!-- admin login form section starts  -->
-
 <section class="form-container">
-
    <!-- entering credentials -->
    <form action="" method="POST">
       <h3>Admin Login</h3>
@@ -84,12 +80,7 @@ if(isset($message)){
       <input type="password" name="pass" maxlength="20" required placeholder="enter your password" class="box" oninput="this.value = this.value.replace(/\s/g, '')">
       <input type="submit" value="login" name="submit" class="login-btn">
    </form>
-
 </section>
-
 <!-- admin login form section ends -->
-
-
-
 </body>
 </html>
