@@ -74,7 +74,7 @@
                 // Output data of each row
                 $row = $result->fetch(PDO::FETCH_ASSOC);
                 if ($row['status'] == "active"){
-                    while ($row)) {
+                    while ($row) {
                         ?>
                         <div class="event-card" id="event-<?php echo $row['id']; ?>">
                             <img src="../frontendPHP/<?php echo $row['image']; ?>" alt="Event Image">
