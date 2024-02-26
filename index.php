@@ -1,7 +1,7 @@
 <?php
-    $db_name = 'mysql:host=localhost;dbname=silongwe_blog_db';
-    $user_name = 'da_sso_WYabJ9F7Q'; // Use the provided username
-    $user_password = 'password1221'; // Use the password associated with the provided username
+    $db_name = 'mysql:host=viaduct.proxy.rlwy.net;port=45564;dbname=railway';
+    $user_name = 'root'; // Replace 'your_mysql_username' with your actual MySQL username
+    $user_password = 'fEg4GAdG4-AHBb-4EhCceCG-b345cG6C'; // Use your MySQL password here
 
     try {
         $conn = new PDO($db_name, $user_name, $user_password);
