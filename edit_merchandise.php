@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 include 'components/connect.php';
 
 session_start();
@@ -87,6 +89,8 @@ if(isset($_POST['delete_image'])){
    $message[] = 'image deleted successfully!';
 
 }
+
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 ?>
 
