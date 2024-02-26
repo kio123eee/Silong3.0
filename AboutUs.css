@@ -1,0 +1,368 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
+
+.team-section {
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.team-category {
+    margin-top: 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    width: 100%;
+    text-align: center;
+}
+
+.team-member {
+    width: 200px;
+    margin: 10px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Center titles */
+}
+
+.team-member img {
+    width: 100%;
+    max-width: 150px; /* Adjust the max-width as needed */
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+}
+
+.team-member h3 {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.team-member p {
+    color: #666;
+}
+
+
+
+
+/* CSS Document */
+.persons3{
+    display: flex;
+    padding: 20px; /* Adjust the padding as per your preference */
+    width: 100%; /* Set initial width as a percentage */
+    height: 15%; /* Set initial height as a percentage */
+    background-color: #FFEEEE;
+    box-sizing: border-box;
+} 
+
+/* EXECUTIVES TEAM */
+.image-container img {
+    width: 25%;
+    height: 25%;
+    object-fit: cover;
+}
+
+.left-section1, .right-section1 {
+    flex: 1;
+    padding: 10px; /* Adjust the padding as per your preference */
+    text-align: center;
+}
+
+.container2{
+    display: flex;
+    padding: 20px; /* Adjust the padding as per your preference */
+    width: 100%; /* Set initial width as a percentage */
+    height: 15%; /* Set initial height as a percentage */
+    box-sizing: border-box;
+}
+
+.header, .h2 {
+    display: flex;
+    padding: 20px; /* Adjust the padding as per your preference */
+    width: 100%; /* Set initial width as a percentage */
+    height: 15%; /* Set initial height as a percentage */
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.vision-icon {
+    width: 200px; /* Adjust the width of the mission icon */
+    height: 140px; /* Adjust the height of the mission icon */
+    background-image: url('vision.png'); /* Replace with the path to your vision icon image */
+    background-size: cover;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+}
+
+.mission-icon {
+    width: 200px; /* Adjust the width of the mission icon */
+    height: 140px; /* Adjust the height of the mission icon */
+    background-image: url('mission.png'); /* Replace with the path to your mission icon image */
+    background-size: cover;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+}
+
+.container {
+    display: flex;
+    background-color: #FFEEEE;
+    padding: 20px; /* Adjust the padding as per your preference */
+    width: 100%; /* Set initial width as a percentage */
+    height: 50%; /* Set initial height as a percentage */
+    box-sizing: border-box;
+}
+
+.left-section, .right-section, .h3 {
+    flex: 1;
+    padding: 10px; /* Adjust the padding as per your preference */
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+p {
+    margin-top: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Center the text horizontally */
+    padding: 0 20px; /* Add padding for better readability */
+    max-width: 800px; /* Adjust the max-width as needed */
+    margin: auto; /* Center the paragraph within its container */
+}
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    overflow: hidden;
+    margin-top:50px;
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden; /* Ensure the image stays within the boundaries */
+}
+
+.slide img {
+    width: 100%; /* Make the image fill the entire container */
+    height: 410px; /* Maintain the aspect ratio */
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: #DF4B79;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+h2 {
+    color: #DF4B79;
+    min-height: 30vh;
+    margin-top: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+    --body-color: #E4E9F7;
+    --nav-color: #FFF8C3;
+    --text-color: #000;
+}
+
+.silong {
+    height: 50px;
+}
+
+body {
+    height: 100vh;
+    background-color: var(--body-color);
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
+    background-color: var(--nav-color);
+    z-index: 1000;
+}
+
+.nav-bar {
+    position: relative;
+    height: 100%;
+    max-width: 1000px;
+    width: 100%;
+    background-color: var(--nav-color);
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    left: 21%;
+    transform: translateX(-50%);
+}
+
+.nav-bar .nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar .nav-links li {
+    margin: 0 5px;
+    list-style: none;
+}
+
+.nav-links li a {
+    position: relative;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px;
+}
+
+.nav-links li a::before {
+    content: '';
+    position: absolute;
+    left: -50%;
+    bottom: 6px;
+    transform: translateX(50%);
+    height: 3px;
+    width: 100%;
+    border-radius: 50%;
+    background-color: var(--text-color);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-links li:hover a::before {
+    opacity: 1;
+}
+
+.nav-links li.dropdown {
+    position: relative;
+}
+
+.nav-links li.dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--nav-color);
+    border: 1px solid var(--text-color);
+    border-radius: 0 0 5px 5px;
+}
+
+.nav-links li.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.nav-links li.dropdown .dropdown-content a {
+    color: var(--text-color);
+    padding: 8px;
+    text-decoration: none;
+    display: block;
+}
+
+footer {
+    background-color: var(--nav-color);
+    padding: 20px 0;
+    color: var(--text-color);
+    position: fixed; 
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-center {
+    flex-grow: 1;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-logo img {
+    height: 30px;
+    margin-right: 10px;
+    margin-left: 50px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    margin: 0 10px;
+}
+
+.separator {
+    margin: 0 10px;
+}
+
+.email {
+    font-style: italic;
+    font-size: 11px;
+}
+
+.footer-right {
+    position: relative;
+    left: 200px;
+}
+
+.admin-login {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 13px;
+}
