@@ -1,30 +1,40 @@
 <?php
 
-include 'components/connect.php'; //to connect MyPHPAdmin DB Here
+include 'components/connect.php'; // Include the file to connect to the database
 
 session_start();
 
 if(isset($_POST['submit'])){
-
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING);
-   $pass = sha1($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_STRING);
-
-   $select_admin = $conn->prepare("SELECT * FROM `admin` WHERE name = ? AND password = ?");
-   $select_admin->execute([$name, $pass]);
+   // Sanitize and validate input
+   $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+   $pass = filter_var($_POST['pass'], FILTER_SANITIZE_STRING);
    
+   // Hash the password securely
+   $pass_hash = sha1($pass); // Note: SHA-1 is not recommended for password hashing, consider using stronger algorithms like bcrypt
+   
+   // Prepare and execute the SQL query
+   $select_admin = $conn->prepare("SELECT * FROM `admin` WHERE name = ? AND password = ?");
+   $select_admin->execute([$name, $pass_hash]);
+   
+   // Check if any rows were returned
    if($select_admin->rowCount() > 0){
+      // Fetch the admin ID from the result
       $fetch_admin_id = $select_admin->fetch(PDO::FETCH_ASSOC);
+      
+      // Store admin ID in session
       $_SESSION['admin_id'] = $fetch_admin_id['id'];
+      
+      // Redirect to admin_events.php
       header('location:admin_events.php');
-   }else{
-      $message[] = 'Incorrect username or password!';
+      exit; // It's good practice to exit after a redirect to prevent further execution
+   } else {
+      // Incorrect username or password
+      $message = 'Incorrect username or password!';
    }
-
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
