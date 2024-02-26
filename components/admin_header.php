@@ -33,7 +33,7 @@ if(isset($message)){
       <a href="admin_events.php"><i class="fas fa-home"></i> <span>EVENTS</span></a>
       <a href="admin_posts.php"><i class="fas fa-pen"></i> <span>BLOG POSTS</span></a>
       <a href="admin_merchandise.php"><i class="fas fa-eye"></i> <span>MERCHANDISE</span></a>
-      <a href="components/admin_logout.php" style="color:var(--red);" onclick="return confirm('logout from the website?');"><i class="fas fa-right-from-bracket"></i><span>logout</span></a>
+      <a href="home.php" style="color:var(--red);" onclick="return confirm('logout from the website?');"><i class="fas fa-right-from-bracket"></i><span>logout</span></a>
    </nav>
 
 </header>
