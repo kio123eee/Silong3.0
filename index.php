@@ -72,25 +72,28 @@
             // Check if there are any events in the result set
             if ($result->rowCount() > 0) {
                 // Output data of each row
-                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    ?>
-                    <div class="event-card" id="event-<?php echo $row['id']; ?>">
-                        <img src="../frontendPHP/<?php echo $row['image']; ?>" alt="Event Image">
-                        <div class="event-details">
-                            <h2><?php echo $row['title']; ?></h2>
-                            <p><?php echo $row['content']; ?></p>
-                            <!-- Add more details here as needed -->
-                            <div class="additional-info" style="display: none;">
-                                <p>Date: <?php echo $row['date']; ?></p>
-                                <p>Location: <?php echo $row['location']; ?></p>
-                                <p>Start Time: <?php echo $row['start_time']; ?></p>
-                                <p>End Time: <?php echo $row['end_time']; ?></p>
+                $row = $result->fetch(PDO::FETCH_ASSOC);
+                if ($row['status'] == "active"){
+                    while ($row)) {
+                        ?>
+                        <div class="event-card" id="event-<?php echo $row['id']; ?>">
+                            <img src="../frontendPHP/<?php echo $row['image']; ?>" alt="Event Image">
+                            <div class="event-details">
+                                <h2><?php echo $row['title']; ?></h2>
+                                <p><?php echo $row['content']; ?></p>
+                                <!-- Add more details here as needed -->
+                                <div class="additional-info" style="display: none;">
+                                    <p>Date: <?php echo $row['date']; ?></p>
+                                    <p>Location: <?php echo $row['location']; ?></p>
+                                    <p>Start Time: <?php echo $row['start_time']; ?></p>
+                                    <p>End Time: <?php echo $row['end_time']; ?></p>
+                                </div>
                             </div>
+                            <a href="#" class="view-link">View Details</a>
+                            
                         </div>
-                        <a href="#" class="view-link">View Details</a>
-                        
-                    </div>
-                    <?php
+                        <?php
+                    }
                 }
             } else {
                 echo "0 results";
