@@ -92,12 +92,12 @@
     <div class="team-section">
         <div class="team-category">Executives</div>
         <div class="team-member">
-            <img src="blank.png" alt="Maya P.">
+            <img src="Blank.png" alt="Maya P.">
             <h3>Maya P.</h3>
             <p>Chairperson</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="Erick L.">
+            <img src="Blank.png" alt="Erick L.">
             <h3>Erick L.</h3>
             <p>Chief of Staff</p>
         </div>
@@ -107,27 +107,27 @@
     <div class="team-section">
         <div class="team-category">Communications Office</div>
         <div class="team-member">
-            <img src="blank.png" alt="IYA B.">
+            <img src="Blank.png" alt="IYA B.">
             <h3>IYA B.</h3>
             <p>Communications Director</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="ARIZ Z.">
+            <img src="Blank.png" alt="ARIZ Z.">
             <h3>ARIZ Z.</h3>
             <p>Communications Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="DENZEL C.">
+            <img src="Blank.png" alt="DENZEL C.">
             <h3>DENZEL C.</h3>
             <p>Communications Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="LEI M.">
+            <img src="Blank.png" alt="LEI M.">
             <h3>LEI M.</h3>
             <p>Communications Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="PRINCESS A.">
+            <img src="Blank.png" alt="PRINCESS A.">
             <h3>PRINCESS A.</h3>
             <p>Communications Member</p>
         </div>
@@ -137,17 +137,17 @@
     <div class="team-section">
         <div class="team-category">Marketing Office</div>
         <div class="team-member">
-            <img src="blank.png" alt="VIEN V.">
+            <img src="Blank.png" alt="VIEN V.">
             <h3>VIEN V.</h3>
             <p>Marketing Director</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="BELLE V.">
+            <img src="Blank.png" alt="BELLE V.">
             <h3>BELLE V.</h3>
             <p>Marketing Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="FIONA Z.">
+            <img src="Blank.png" alt="FIONA Z.">
             <h3>FIONA Z.</h3>
             <p>Marketing Member</p>
         </div>
@@ -157,12 +157,12 @@
     <div class="team-section">
         <div class="team-category">Finance Office</div>
         <div class="team-member">
-            <img src="blank.png" alt="FRANNY B.">
+            <img src="Blank.png" alt="FRANNY B.">
             <h3>FRANNY B.</h3>
             <p>Finance Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="ALEXIS N.">
+            <img src="Blank.png" alt="ALEXIS N.">
             <h3>ALEXIS N.</h3>
             <p>Finance Member</p>
         </div>
@@ -172,37 +172,37 @@
     <div class="team-section">
         <div class="team-category">Creatives Committee</div>
         <div class="team-member">
-            <img src="blank.png" alt="LOURDES O.">
+            <img src="Blank.png" alt="LOURDES O.">
             <h3>LOURDES O.</h3>
             <p>Creatives Head</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="AVI J.">
+            <img src="Blank.png" alt="AVI J.">
             <h3>AVI J.</h3>
             <p>Creatives Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="ANIKA G.">
+            <img src="Blank.png" alt="ANIKA G.">
             <h3>ANIKA G.</h3>
             <p>Creatives Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="BEA A.">
+            <img src="Blank.png" alt="BEA A.">
             <h3>BEA A.</h3>
             <p>Creatives Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="ELIANA L.">
+            <img src="Blank.png" alt="ELIANA L.">
             <h3>ELIANA L.</h3>
             <p>Creatives Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="KIRSTEN L.">
+            <img src="Blank.png" alt="KIRSTEN L.">
             <h3>KIRSTEN L.</h3>
             <p>Creatives Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="GWY P.">
+            <img src="Blank.png" alt="GWY P.">
             <h3>GWY P.</h3>
             <p>Creatives Member</p>
         </div>
@@ -212,22 +212,22 @@
     <div class="team-section">
         <div class="team-category">Publicity Committee</div>
         <div class="team-member">
-            <img src="blank.png" alt="ERI H.">
+            <img src="Blank.png" alt="ERI H.">
             <h3>ERI H.</h3>
             <p>Publicity Head</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="GWEN M.">
+            <img src="Blank.png" alt="GWEN M.">
             <h3>GWEN M.</h3>
             <p>Publicity Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="ELISHA M.">
+            <img src="Blank.png" alt="ELISHA M.">
             <h3>ELISHA M.</h3>
             <p>Publicity Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="KELLY T.">
+            <img src="Blank.png" alt="KELLY T.">
             <h3>KELLY T.</h3>
             <p>Publicity Member</p>
         </div>
@@ -237,27 +237,27 @@
     <div class="team-section">
         <div class="team-category">Operations Office</div>
         <div class="team-member">
-            <img src="blank.png" alt="JERSSEY G.">
+            <img src="Blank.png" alt="JERSSEY G.">
             <h3>JERSSEY G.</h3>
             <p>Operations Director</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="PHOEM F.">
+            <img src="Blank.png" alt="PHOEM F.">
             <h3>PHOEM F.</h3>
             <p>Operations Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="GABBY B.">
+            <img src="Blank.png" alt="GABBY B.">
             <h3>GABBY B.</h3>
             <p>Operations Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="KAT I.">
+            <img src="Blank.png" alt="KAT I.">
             <h3>KAT I.</h3>
             <p>Operations Member</p>
         </div>
         <div class="team-member">
-            <img src="blank.png" alt="ANJ D.">
+            <img src="Blank.png" alt="ANJ D.">
             <h3>ANJ D.</h3>
             <p>Operations Member</p>
         </div>
