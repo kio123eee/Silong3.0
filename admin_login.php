@@ -25,7 +25,7 @@ if(isset($_POST['submit'])){
       $_SESSION['admin_id'] = $fetch_admin_id['id'];
       
       // Redirect to admin_events.php
-      header('location:admin_events.php');
+      header('Location: admin_events.php');
       exit; // It's good practice to exit after a redirect to prevent further execution
    } else {
       // Incorrect username or password
@@ -34,6 +34,7 @@ if(isset($_POST['submit'])){
 }
 
 ?>
+
 
 
 <!DOCTYPE html>
