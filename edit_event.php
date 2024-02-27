@@ -12,94 +12,75 @@ if(!isset($admin_id)){
    header('location:admin_login.php');
 }
 
-if(isset($_POST['save'])){
+function updateEvent($status)
+{
+    global $conn, $admin_id;
+    $mod_by = $_POST['mod_by'];
+    $mod_by = filter_var($mod_by, FILTER_SANITIZE_STRING);
+    $title = $_POST['title'];
+    $title = filter_var($title, FILTER_SANITIZE_STRING);
+    $content = $_POST['content'];
+    $content = filter_var($content, FILTER_SANITIZE_STRING);
+    $location = $_POST['location'];
+    $location = filter_var($location, FILTER_SANITIZE_STRING);
+    $date = $_POST['date'];
+    $date = filter_var($date, FILTER_SANITIZE_STRING);
+    $start_time = $_POST['start_time'];
+    $start_time = filter_var($start_time, FILTER_SANITIZE_STRING);
+    $end_time = $_POST['end_time'];
+    $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
+    $event_id = $_GET['id'];
+    $event_id = filter_var($event_id, FILTER_SANITIZE_NUMBER_INT);
 
-   $event_id = isset($_GET['id']);
-   $event_id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
-   $mod_by = $_POST['mod_by'];
-   $mod_by = filter_var($mod_by, FILTER_SANITIZE_STRING);
-   $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $content = $_POST['content'];
-   $content = filter_var($content, FILTER_SANITIZE_STRING);
-   $location = $_POST['location'];
-   $location = filter_var($location, FILTER_SANITIZE_STRING);
-   $date = $_POST['date'];
-   $date = filter_var($date, FILTER_SANITIZE_STRING);
-   $start_time = $_POST['start_time'];
-   $start_time = filter_var($start_time, FILTER_SANITIZE_STRING);
-   $end_time = $_POST['end_time'];
-   $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
-   $status = $_POST['status'];
-   $status = filter_var($status, FILTER_SANITIZE_STRING);
-   
-   $update_event = $conn->prepare("UPDATE `events` SET  mod_by = ?, title = ?, content = ?, location = ?, date = ?, start_time = ?, end_time = ?, status = ? WHERE id = ?");
-   $update_event->execute([ $mod_by, $title, $content, $location, $date, $start_time, $end_time, $status, $event_id]);
+    $image = $_FILES['image']['name'];
+    $image_tmp_name = $_FILES['image']['tmp_name'];
+    $uploadDir = '/app/storage/uploads/';
+    $image_folder = $uploadDir . $image;
 
-   $message[] = 'event updated!';
-   
-   $old_image = $_POST['old_image'];
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../frontendPHP/'.$image;
+    // Check if the upload directory exists, create it if not
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    } else {
+        // If directory already exists, ensure permissions are set correctly
+        chmod($uploadDir, 0777);
+    }
 
-   $select_image = $conn->prepare("SELECT * FROM `events` WHERE image = ?");
-   $select_image->execute([$image]);
+    // Check if a new image is uploaded
+    if (!empty($image)) {
+        $image = filter_var($image, FILTER_SANITIZE_STRING);
+        $image_size = $_FILES['image']['size'];
+        $image_folder_path = $image_folder . basename($image);
 
-   if(!empty($image)){
-      if($image_size > 2000000){
-         $message[] = 'images size is too large!';
-      }elseif($select_image->rowCount() > 0 AND $image != ''){
-         $message[] = 'please rename your image!';
-      }else{
-         $update_image = $conn->prepare("UPDATE `events` SET image = ? WHERE id = ?");
-         move_uploaded_file($image_tmp_name, $image_folder);
-         $update_image->execute([$image, $event_id]);
-         if($old_image != $image AND $old_image != ''){
-            unlink('../frontendPHP/'.$old_image);
-         } 
-         $message[] = 'image updated!';
-      }
-   }
+        if ($image_size > 2000000) {
+            return 'Image size is too large!';
+        } else {
+            // Move the uploaded image to the storage directory
+            if (move_uploaded_file($image_tmp_name, $image_folder_path)) {
+                // Update the event details including the image
+                $update_event = $conn->prepare("UPDATE `events` SET mod_by = ?, title = ?, content = ?, location = ?, date = ?, start_time = ?, end_time = ?, image = ?, status = ? WHERE id = ?");
+                $update_event->execute([$mod_by, $title, $content, $location, $date, $start_time, $end_time, $image, $status, $event_id]);
+                return 'Event updated!';
+            } else {
+                return 'Error uploading image.';
+            }
+        }
+    } else {
+        // If no new image is uploaded, update only the event details
+        $update_event = $conn->prepare("UPDATE `events` SET mod_by = ?, title = ?, content = ?, location = ?, date = ?, start_time = ?, end_time = ?, status = ? WHERE id = ?");
+        $update_event->execute([$mod_by, $title, $content, $location, $date, $start_time, $end_time, $status, $event_id]);
+        return 'Event updated!';
+    }
 }
 
-if(isset($_POST['delete_event'])){
-
-   $event_id = $_POST['event_id'];
-   $event_id = filter_var($event_id, FILTER_SANITIZE_STRING);
-   $delete_image = $conn->prepare("SELECT * FROM `events` WHERE id = ?");
-   $delete_image->execute([$event_id]);
-   $fetch_delete_image = $delete_image->fetch(PDO::FETCH_ASSOC);
-   if($fetch_delete_image['image'] != ''){
-      unlink('../frontendPHP/'.$fetch_delete_image['image']);
-   }
-   $delete_event = $conn->prepare("DELETE FROM `events` WHERE id = ?");
-   $delete_event->execute([$event_id]);
-   $message[] = 'event deleted successfully!';
-
+$message = [];
+if (isset($_POST['save'])) {
+    $message[] = updateEvent('deactive');
 }
 
-if(isset($_POST['delete_image'])){
-
-   $empty_image = '';
-   $event_id = $_POST['event_id'];
-   $event_id = filter_var($event_id, FILTER_SANITIZE_STRING);
-   $delete_image = $conn->prepare("SELECT * FROM `events` WHERE id = ?");
-   $delete_image->execute([$event_id]);
-   $fetch_delete_image = $delete_image->fetch(PDO::FETCH_ASSOC);
-   if($fetch_delete_image['image'] != ''){
-      unlink('../uploaded_img/'.$fetch_delete_image['image']);
-   }
-   $unset_image = $conn->prepare("UPDATE `events` SET image = ? WHERE id = ?");
-   $unset_image->execute([$empty_image, $event_id]);
-   $message[] = 'image deleted successfully!';
-
+if (isset($_POST['publish'])) {
+    $message[] = updateEvent('active');
 }
 
-error_reporting(E_ALL & ~E_DEPRECATED);
-	
 ?>
 
 <!DOCTYPE html>
