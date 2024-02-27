@@ -30,8 +30,10 @@ function saveMerchandise($status)
     }
 
     if (move_uploaded_file($image_tmp_name, $image_folder)) {
-        $insert_merchandise = $conn->prepare("INSERT INTO `merchandise`(admin_id, admin_name, title, content, image, status) VALUES(?,?,?,?,?,?)");
-        $insert_merchandise->execute([$admin_id, $admin_name, $title, $content, $image, $status]);
+        // Modify the SQL query to include the `mod_by` field
+        $insert_merchandise = $conn->prepare("INSERT INTO `merchandise`(admin_id, admin_name, title, content, image, status, mod_by) VALUES(?,?,?,?,?,?,?)");
+        // Provide a value for `mod_by` field (you can set it to $admin_id or any other appropriate value)
+        $insert_merchandise->execute([$admin_id, $admin_name, $title, $content, $image, $status, $admin_id]);
         return 'Merchandise ' . ($status === 'active' ? 'published' : 'saved as draft');
     } else {
         return 'Error uploading image.';
