@@ -1,17 +1,14 @@
 <?php
-
 include 'components/connect.php';
-
 session_start();
-
 $admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:admin_login.php');
+if (!isset($admin_id)) {
+    header('location:admin_login.php');
 }
 
-if (isset($_POST['publish'])) {
-
+function saveEvent($status)
+{
+    global $conn, $admin_id;
     $admin_name = $_POST['admin_name'];
     $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
     $title = $_POST['title'];
@@ -26,7 +23,6 @@ if (isset($_POST['publish'])) {
     $start_time = filter_var($start_time, FILTER_SANITIZE_STRING);
     $end_time = $_POST['end_time'];
     $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
-    $status = 'active';
 
     $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
@@ -37,58 +33,28 @@ if (isset($_POST['publish'])) {
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     } else {
-    // If directory already exists, ensure permissions are set correctly
-    chmod($uploadDir, 0777);
+        // If directory already exists, ensure permissions are set correctly
+        chmod($uploadDir, 0777);
     }
 
     if (move_uploaded_file($image_tmp_name, $image_folder)) {
         $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status, mod_by) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         $insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status, $admin_id]);
-        $message[] = 'Event published!';
+        return 'Event ' . ($status === 'active' ? 'published' : 'saved as draft');
     } else {
-        $message[] = 'Error uploading image.';
+        return 'Error uploading image.';
     }
 }
 
+$message = [];
+if (isset($_POST['publish'])) {
+    $message[] = saveEvent('active');
+}
+
 if (isset($_POST['draft'])) {
-
-    $admin_name = $_POST['admin_name'];
-    $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
-    $title = $_POST['title'];
-    $title = filter_var($title, FILTER_SANITIZE_STRING);
-    $content = $_POST['content'];
-    $content = filter_var($content, FILTER_SANITIZE_STRING);
-    $location = $_POST['location'];
-    $location = filter_var($location, FILTER_SANITIZE_STRING);
-    $date = $_POST['date'];
-    $date = filter_var($date, FILTER_SANITIZE_STRING);
-    $start_time = $_POST['start_time'];
-    $start_time = filter_var($start_time, FILTER_SANITIZE_STRING);
-    $end_time = $_POST['end_time'];
-    $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
-    $status = 'deactive';
-
-    $image = $_FILES['image']['name'];
-    $image_tmp_name = $_FILES['image']['tmp_name'];
-    $uploadDir = '/app/storage/uploads/';
-    $image_folder = $uploadDir . $image;
-
-    // Check if the upload directory exists, create it if not
-    if (!file_exists($uploadDir)) {
-    mkdir($uploadDir, 0777, true);
-} else {
-    // If directory already exists, ensure permissions are set correctly
-    chmod($uploadDir, 0777);
+    $message[] = saveEvent('deactive');
 }
-
-if (move_uploaded_file($image_tmp_name, $image_folder)) {
-    $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status) VALUES(?,?,?,?,?,?,?,?,?,?)");
-    $insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status]);
-    $message[] = 'Draft saved!';
-} else {
-    $message[] = 'Error uploading image.';
-}
-} ?>
+?>
 
 
 <!DOCTYPE html>
