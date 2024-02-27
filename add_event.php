@@ -10,7 +10,6 @@ if(!isset($admin_id)){
    header('location:admin_login.php');
 }
 
-<?php
 if (isset($_POST['publish'])) {
 
     $admin_name = $_POST['admin_name'];
