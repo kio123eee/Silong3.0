@@ -98,7 +98,7 @@
                         if ($row['status'] == "active"){
                             ?>
                             <div class="image-item">
-                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfp_-_yBrH5TVIYnKfYMY3ILpqAGlMQI6NOnqvIcv1iBg12BQ/closedform"> <img src="../frontendPHP/<?php echo $row['image']; ?>" alt="<?php echo $row['title']; ?>"> </a>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfp_-_yBrH5TVIYnKfYMY3ILpqAGlMQI6NOnqvIcv1iBg12BQ/closedform"> <img src="/storage/uploads/<?php echo $row['image']; ?>" alt="<?php echo $row['title']; ?>"> </a>
                                 <h4><?php echo $row['title']; ?></h4>
                                 <p><?php echo $row['content']; ?></p>
                             </div>
