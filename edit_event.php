@@ -109,25 +109,24 @@ if (isset($_POST['publish'])) {
    <h1 class="heading">edit event</h1>
    <br><br><br>
 
-	<?php
+   <?php
       $event_id = $_GET['id'];
       $select_events = $conn->prepare("SELECT * FROM `events` WHERE id = ?");
       $select_events->execute([$event_id]);
       if($select_events->rowCount() > 0){
          while($fetch_events = $select_events->fetch(PDO::FETCH_ASSOC)){
    ?>
-	
+
    <form action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="mod_by" value="<?= $fetch_profile['name']; ?>">
-	
-	  <input type="hidden" name="old_image" value="<?= $fetch_events['image']; ?>">	
-	
-	  <select name="status" class="box" required>
-      <option value="<?= $fetch_events['status']; ?>" selected><?= $fetch_events['status']; ?></option>
-      <option value="active">active</option>
-      <option value="deactive">deactive</option>
-      </select>
-	
+      <input type="hidden" name="old_image" value="<?= $fetch_events['image']; ?>">
+      
+      <p>event image</p>
+      <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png, image/webp">
+      <?php if($fetch_events['image'] != ''){ ?>
+         <img src="../frontendPHP/<?= $fetch_events['image']; ?>" class="image" alt="">
+      <?php } ?>
+
       <p>event title <span>*</span></p>
       <input type="text" name="title" maxlength="100" required placeholder="add event title" class="box" value="<?= $fetch_events['title']; ?>">
       
@@ -146,35 +145,22 @@ if (isset($_POST['publish'])) {
 	  <p>ending time<span>*</span></p>
       <input type="time" name="end_time" min="1:00" max="24:00" required placeholder="select time" class="box" value="<?= $fetch_events['end_time']; ?>">
 
-		<p>image</p>
-      <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png, image/webp">
-      <?php if($fetch_events['image'] != ''){ ?>
-         <img src="../uploaded_img/<?= $fetch_events['image']; ?>" class="image" alt="">
-         <input type="submit" value="delete image" class="inline-delete-btn" name="delete_image">
-      <?php } ?>
+      <br> <br><br>
       <div class="flex-btn">
          <input type="submit" value="save event" name="save" class="btn">
-         <a href="admin_events.php" class="option-btn">go back</a>
-         <input type="submit" value="delete event" class="delete-btn" name="delete_event">
+         <input type="submit" value="publish event" name="publish" class="option-btn">
       </div>
    </form>
     
-	<?php
+   <?php
          }
       }else{
          echo '<p class="empty">no events found!</p>';
    ?>
-   <div class="flex-btn">
-      <a href="admin_events.php" class="option-btn">view events</a>
-      <a href="add_event.php" class="option-btn">add events</a>
-   </div>
-   <?php
-      }
-   ?>
-
 
 </section>
 
+<?php include 'components/admin_footer.php' ?>
 
 <!-- custom js file link  -->
 <script src="js/admin_script.js"></script>
