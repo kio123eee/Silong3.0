@@ -1,88 +1,53 @@
 <?php
+include 'components/connect.php';
 session_start();
-include '../config/config.php';
-
-if(isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])){
-   $admin_id = $_SESSION['admin_id'];
-   $admin_name = $_SESSION['admin_name'];
-}else{
-   header('Location: ../index.php');
+$admin_id = $_SESSION['admin_id'];
+if (!isset($admin_id)) {
+    header('location:admin_login.php');
 }
 
-if(isset($_POST['publish'])){
-   $status = 'active';
-   $message = [];
+function saveMerchandise($status)
+{
+    global $conn, $admin_id;
+    $admin_name = $_POST['admin_name'];
+    $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
+    $title = $_POST['title'];
+    $title = filter_var($title, FILTER_SANITIZE_STRING);
+    $content = $_POST['content'];
+    $content = filter_var($content, FILTER_SANITIZE_STRING);
 
-   $title = $_POST['title'];
-   $content = $_POST['content'];
+    $image = $_FILES['image']['name'];
+    $image_tmp_name = $_FILES['image']['tmp_name'];
+    $uploadDir = '/app/storage/uploads/';
+    $image_folder = $uploadDir . $image;
 
-   if(isset($_FILES['image']['name'])){
-      $image = $_FILES['image']['name'];
-      $image = filter_var($image, FILTER_SANITIZE_STRING);
-      $image_size = $_FILES['image']['size'];
-      $image_tmp_name = $_FILES['image']['tmp_name'];
-      $image_folder = '../storage/uploads/'.$image;
+    // Check if the upload directory exists, create it if not
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    } else {
+        // If directory already exists, ensure permissions are set correctly
+        chmod($uploadDir, 0777);
+    }
 
-      $select_image = $conn->prepare("SELECT * FROM `merchandise` WHERE image = ? AND admin_id = ?");
-      $select_image->execute([$image, $admin_id]);
-
-      if($select_image->rowCount() > 0 AND $image != ''){
-         $message[] = 'Please rename your image!';
-      }elseif($image_size > 2000000){
-         $message[] = 'Image size is too large!';
-      }else{
-         move_uploaded_file($image_tmp_name, $image_folder);
-      }
-   }else{
-      $image = '';
-   }
-
-   if(empty($message)){
-      $insert_merchandise = $conn->prepare("INSERT INTO `merchandise`(admin_id, admin_name, title, content, image, status) VALUES(?,?,?,?,?,?)");
-      $insert_merchandise->execute([$admin_id, $admin_name, $title, $content, $image, $status]);
-      $message[] = 'Merchandise published!';
-   }
+    if (move_uploaded_file($image_tmp_name, $image_folder)) {
+        $insert_merchandise = $conn->prepare("INSERT INTO `merchandise`(admin_id, admin_name, title, content, image, status) VALUES(?,?,?,?,?,?)");
+        $insert_merchandise->execute([$admin_id, $admin_name, $title, $content, $image, $status]);
+        return 'Merchandise ' . ($status === 'active' ? 'published' : 'saved as draft');
+    } else {
+        return 'Error uploading image.';
+    }
 }
 
-if(isset($_POST['draft'])){
-   $status = 'deactive';
-   $message = [];
-
-   $title = $_POST['title'];
-   $content = $_POST['content'];
-
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../storage/uploads/'.$image;
-
-   $select_image = $conn->prepare("SELECT * FROM `merchandise` WHERE image = ? AND admin_id = ?");
-   $select_image->execute([$image, $admin_id]);
-
-   if(isset($image)){
-      if($select_image->rowCount() > 0 AND $image != ''){
-         $message[] = 'Image name repeated!';
-      }elseif($image_size > 2000000){
-         $message[] = 'Image size is too large!';
-      }else{
-         move_uploaded_file($image_tmp_name, $image_folder);
-      }
-   }else{
-      $image = '';
-   }
-
-   if($select_image->rowCount() > 0 AND $image != ''){
-      $message[] = 'Please rename your image!';
-   }else{
-      $insert_merchandise = $conn->prepare("INSERT INTO `merchandise`(admin_id, admin_name, title, content, image, status) VALUES(?,?,?,?,?,?)");
-      $insert_merchandise->execute([$admin_id, $admin_name, $title, $content, $image, $status]);
-      $message[] = 'Draft saved!';
-   }
+$message = [];
+if (isset($_POST['publish'])) {
+    $message[] = saveMerchandise('active');
 }
 
-error_reporting(E_ALL & ~E_DEPRECATED);
+if (isset($_POST['draft'])) {
+    $message[] = saveMerchandise('deactive');
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -111,7 +76,7 @@ error_reporting(E_ALL & ~E_DEPRECATED);
    <br><br><br>
 
    <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="admin_name" value="<?= $admin_name; ?>">
+      <input type="hidden" name="admin_name" value="<?= $fetch_profile['name']; ?>">
       
       <p>Merchandise Image</p>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png, image/webp">
@@ -125,7 +90,7 @@ error_reporting(E_ALL & ~E_DEPRECATED);
       <br> <br><br>
       <div class="flex-btn">
          <input type="submit" value="Publish Merchandise" name="publish" class="btn">
-		 <input type="submit" value="Save Draft" name="draft" class="option-btn">
+         <input type="submit" value="Save Draft" name="draft" class="option-btn">
       </div>
    </form>
 
