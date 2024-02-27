@@ -1,4 +1,7 @@
 <?php
+
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 include 'components/connect.php';
 session_start();
 
@@ -50,6 +53,9 @@ if (isset($_POST['publish']) || isset($_POST['draft'])) {
         $message[] = (isset($_POST['publish'])) ? 'post published!' : 'draft saved!';
     }
 }
+
+error_reporting(E_ALL & ~E_DEPRECATED);
+	
 ?>
 
 
@@ -70,7 +76,7 @@ if (isset($_POST['publish']) || isset($_POST['draft'])) {
 </head>
 <body>
 
-
+	
 <?php include 'components/admin_header.php' ?>
 
 <section class="post-editor">
