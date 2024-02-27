@@ -1,19 +1,16 @@
 <?php
 
-error_reporting(E_ALL & ~E_DEPRECATED);
-
-include 'components/connect.php';
+include 'components/connect.php'; //to connect MyPHPAdmin DB Here
 
 session_start();
 
 $admin_id = $_SESSION['admin_id'];
 
-if (!isset($admin_id)) {
-    header('location:admin_login.php');
+if(!isset($admin_id)){
+   header('location:admin_login.php');
 }
 
-if (isset($_POST['publish'])) {
-
+if(isset($_POST['publish'])) {
     $admin_name = $_POST['admin_name'];
     $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
     $title = $_POST['title'];
@@ -29,35 +26,35 @@ if (isset($_POST['publish'])) {
     $end_time = $_POST['end_time'];
     $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
     $status = 'active';
-
+   
     $image = $_FILES['image']['name'];
     $image = filter_var($image, FILTER_SANITIZE_STRING);
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_folder = '/uploads/' . $image;
+    $image_folder = '/uploads/'.$image;
 
-    $select_image = $conn->prepare("SELECT * FROM `events` WHERE image = ? AND admin_id = ?");
-    $select_image->execute([$image, $admin_id]);
+    // Create the directory if it doesn't exist
+    if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/uploads/')) {
+        mkdir($_SERVER['DOCUMENT_ROOT'] . '/uploads/', 0777, true);
+    }
 
-    if (isset($image)) {
-        if ($select_image->rowCount() > 0 && $image != '') {
+    if(isset($image)) {
+        if($select_image->rowCount() > 0 AND $image != '') {
             $message[] = 'image name repeated!';
-        } elseif ($image_size > 2000000) {
+        } elseif($image_size > 2000000) {
             $message[] = 'images size is too large!';
         } else {
-            // Move the uploaded file to the destination directory
-            move_uploaded_file($image_tmp_name, $_SERVER['DOCUMENT_ROOT'] . $image_folder);
+            move_uploaded_file($image_tmp_name, $image_folder);
         }
     } else {
         $image = '';
     }
 
-    if ($select_image->rowCount() > 0 && $image != '') {
+    if($select_image->rowCount() > 0 AND $image != '') {
         $message[] = 'please rename your image!';
     } else {
         $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status, mod_by) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         $insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status, $admin_id]);
-
         $message[] = 'event published!';
     }
 }
