@@ -124,7 +124,7 @@ if (isset($_POST['publish'])) {
       <p>event image</p>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png, image/webp">
       <?php if($fetch_events['image'] != ''){ ?>
-         <img src="../frontendPHP/<?= $fetch_events['image']; ?>" class="image" alt="">
+         <img src="/storage/uploads/<?= $fetch_events['image']; ?>" class="image" alt="">
       <?php } ?>
 
       <p>event title <span>*</span></p>
