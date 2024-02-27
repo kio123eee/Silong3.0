@@ -1,39 +1,33 @@
 <?php
-
-error_reporting(E_ALL & ~E_DEPRECATED);
-
-include 'components/connect.php';
-
 session_start();
+include '../config/config.php';
 
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:admin_login.php');
+if(isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])){
+   $admin_id = $_SESSION['admin_id'];
+   $admin_name = $_SESSION['admin_name'];
+}else{
+   header('Location: ../index.php');
 }
 
 if(isset($_POST['publish'])){
-
-   $admin_name = $_POST['admin_name'];
-   $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
-   $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $content = $_POST['content'];
-   $content = filter_var($content, FILTER_SANITIZE_STRING);
    $status = 'active';
-   
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../frontendPHP/'.$image;
+   $message = [];
 
-   $select_image = $conn->prepare("SELECT * FROM `merchandise` WHERE image = ?");
-   $select_image->execute([$image]);
+   $title = $_POST['title'];
+   $content = $_POST['content'];
 
-   if(isset($image)){
+   $select_image = $conn->prepare("SELECT * FROM `merchandise` WHERE image = ? AND admin_id = ?");
+   $select_image->execute([$image, $admin_id]);
+
+   if(isset($_FILES['image']['name'])){
+      $image = $_FILES['image']['name'];
+      $image = filter_var($image, FILTER_SANITIZE_STRING);
+      $image_size = $_FILES['image']['size'];
+      $image_tmp_name = $_FILES['image']['tmp_name'];
+      $image_folder = '/storage/uploads/'.$image;
+
       if($select_image->rowCount() > 0 AND $image != ''){
-         $message[] = 'image name repeated!';
+         $message[] = 'please rename your image!';
       }elseif($image_size > 2000000){
          $message[] = 'images size is too large!';
       }else{
@@ -43,30 +37,25 @@ if(isset($_POST['publish'])){
       $image = '';
    }
 
-   if($select_image->rowCount() > 0 AND $image != ''){
-      $message[] = 'please rename your image!';
-   }else{
-      $insert_merchandise = $conn->prepare("INSERT INTO `merchandise` (admin_id, admin_name, title, content, image, status, mod_by) VALUES (?, ?, ?, ?, ?, ?, ?)");
-      $insert_merchandise->execute([$admin_id, $admin_name, $title, $content, $image, $status, $admin_name]);
+   if(empty($message)){
+      $insert_merchandise = $conn->prepare("INSERT INTO `merchandise`(admin_id, admin_name, title, content, image, status) VALUES(?,?,?,?,?,?)");
+      $insert_merchandise->execute([$admin_id, $admin_name, $title, $content, $image, $status]);
       $message[] = 'merchandise published!';
    }
 }
 
 if(isset($_POST['draft'])){
-
-   $admin_name = $_POST['admin_name'];
-   $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
-   $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $content = $_POST['content'];
-   $content = filter_var($content, FILTER_SANITIZE_STRING);
    $status = 'deactive';
-   
+   $message = [];
+
+   $title = $_POST['title'];
+   $content = $_POST['content'];
+
    $image = $_FILES['image']['name'];
    $image = filter_var($image, FILTER_SANITIZE_STRING);
    $image_size = $_FILES['image']['size'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../frontendPHP/'.$image;
+   $image_folder = '/storage/uploads/'.$image;
 
    $select_image = $conn->prepare("SELECT * FROM `merchandise` WHERE image = ? AND admin_id = ?");
    $select_image->execute([$image, $admin_id]);
@@ -93,7 +82,6 @@ if(isset($_POST['draft'])){
 }
 
 error_reporting(E_ALL & ~E_DEPRECATED);
-	
 ?>
 
 <!DOCTYPE html>
