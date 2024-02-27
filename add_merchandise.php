@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 include 'components/connect.php';
 
 session_start();
@@ -90,6 +92,8 @@ if(isset($_POST['draft'])){
    }
 }
 
+error_reporting(E_ALL & ~E_DEPRECATED);
+	
 ?>
 
 <!DOCTYPE html>
