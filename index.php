@@ -76,7 +76,7 @@
                     if ($row['status'] == "active"){
                         ?>
                         <div class="event-card" id="event-<?php echo $row['id']; ?>">
-                            <img src="/app/storage/uploads/<?php echo $row['image']; ?>" alt="Event Image">
+                            <img src="<?php echo $row['image']; ?>" alt="Event Image">
                             <div class="event-details">
                                 <h2><?php echo $row['title']; ?></h2>
                                 <p><?php echo $row['content']; ?></p>
