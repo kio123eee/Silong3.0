@@ -32,6 +32,8 @@ function updateEvent($status)
     $event_id = $_GET['id'];
     $event_id = filter_var($event_id, FILTER_SANITIZE_NUMBER_INT);
 
+    $old_image = $_POST['old_image'];
+
     $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $uploadDir = '/app/storage/uploads/';
