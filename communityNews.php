@@ -60,13 +60,7 @@
                                 <h2><?php echo $row['title']; ?></h2>
                                 <p><?php echo $row['content']; ?></p>
                                 <!-- Add more details here as needed -->
-                                <div class="additional-info" style="display: none;">
-                                    <p>Date: <?php echo $row['date']; ?></p>
-                                    <p>Start Time: <?php echo $row['start_time']; ?></p>
-                                    <p>End Time: <?php echo $row['end_time']; ?></p>
-                                </div>
                             </div>
-                            <a href="#" class="view-link">View Details</a>
                         </div>
                         <?php
                     }
