@@ -26,7 +26,7 @@
     <body>
         <nav>
             <div class="nav-bar">
-                <span class="logo"><img src="logohead.png" class="silong"></span>
+                <span class="logo"><a href="index.php"><img src="logohead.png" class="silong"></a></span>
                 
                 <div class="menu">
                     <ul class="nav-links">
@@ -120,7 +120,9 @@
                 <div class="footer-center">
                     <div class="footer-links">
                         <div class="footer-logo">
+                            <a href="index.php">
                             <img src="logohead.png" class="silong" alt="Silong Logo">
+                            </a>
                         </div>
                         <a href="#">CONTACT US</a>
                         <a href="#https://www.facebook.com/SilongPH"><i class="fab fa-facebook"></i></a>
