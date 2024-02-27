@@ -4,24 +4,27 @@ include 'components/connect.php'; //to connect MyPHPAdmin DB Here
 
 session_start();
 
+// Use the correct session variable name
 $admin_id = $_SESSION['admin_id'];
 
 if(!isset($admin_id)){
    header('location:admin_login.php');
 }
 
-if(isset($_POST['delete'])) {
+// Use the correct form variable name
+if(isset($_POST['delete_merchandise'])) {
 	$delete_id = $_POST['merchandise_id'];
 	$delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
-	$select_image = $conn->prepare("SELECT * FROM `merchandise` WHERE ID = ?");
+	$select_image = $conn->prepare("SELECT * FROM `merchandise` WHERE id = ?");
 	$select_image->execute([$delete_id]);
 	$fetch_image = $select_image->fetch(PDO::FETCH_ASSOC);
 	if($fetch_image['image'] != ''){
-		unlink('../frontendPHP/'.$fetch_image['image']);
+		// Use the correct file path
+		unlink('/storage/uploads/'.$fetch_image['image']);
 	}
 	$delete_merchandise = $conn->prepare("DELETE FROM `merchandise` WHERE id = ?");
 	$delete_merchandise->execute([$delete_id]);
-	$message[] = 'merchandise deleted successfuly!';
+	$message[] = 'Merchandise deleted successfuly!';
 }
 ?>
 
@@ -89,7 +92,7 @@ if(isset($_POST['delete'])) {
 			   <?= $fetch_merchandises['status']; ?>
 			   </div>
                <?php if($fetch_merchandises['image'] != ''){ ?>
-               <img src="../frontendPHP/<?= $fetch_merchandises['image']; ?>" class="image" alt="">
+               <img src="/storage/uploads/<?= $fetch_merchandises['image']; ?>" class="image" alt="">
                <?php } ?>
                <div class="title"><?= $fetch_merchandises['title']; ?></div>
                <div class="content"><?= $fetch_merchandises['content']; ?></div>
