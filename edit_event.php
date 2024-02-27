@@ -161,8 +161,6 @@ if (isset($_POST['publish'])) {
 
 </section>
 
-<?php include 'components/admin_footer.php' ?>
-
 <!-- custom js file link  -->
 <script src="js/admin_script.js"></script>
 
