@@ -1,8 +1,6 @@
 <?php
 
-error_reporting(E_ALL & ~E_DEPRECATED);
-
-include 'components/connect.php';
+include 'components/connect.php'; // Include database connection
 session_start();
 
 $admin_id = $_SESSION['admin_id'];
@@ -11,7 +9,9 @@ if (!isset($admin_id)) {
     header('location:admin_login.php');
 }
 
-if (isset($_POST['publish']) || isset($_POST['draft'])) {
+function savePost($status)
+{
+    global $conn, $admin_id;
     $admin_name = $_POST['admin_name'];
     $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
     $title = $_POST['title'];
@@ -20,44 +20,43 @@ if (isset($_POST['publish']) || isset($_POST['draft'])) {
     $content = filter_var($content, FILTER_SANITIZE_STRING);
     $date = $_POST['date'];
     $date = filter_var($date, FILTER_SANITIZE_STRING);
-    $status = (isset($_POST['publish'])) ? 'active' : 'deactive';
     $start_time = date('Y-m-d H:i:s'); // Default value for start_time
     $end_time = date('Y-m-d H:i:s'); // Default value for end_time
-    
+
     $image = $_FILES['image']['name'];
-    $image = filter_var($image, FILTER_SANITIZE_STRING);
-    $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_folder = '../frontendPHP/'.$image;
+    $uploadDir = '/app/storage/uploads/';
+    $image_folder = $uploadDir . $image;
 
-    $select_image = $conn->prepare("SELECT * FROM `posts` WHERE image = ?");
-    $select_image->execute([$image]);
-
-    if (isset($image)) {
-        if ($select_image->rowCount() > 0 && $image != '') {
-            $message[] = 'image name repeated!';
-        } elseif ($image_size > 2000000) {
-            $message[] = 'images size is too large!';
-        } else {
-            move_uploaded_file($image_tmp_name, $image_folder);
-        }
+    // Check if the upload directory exists, create it if not
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
     } else {
-        $image = '';
+        // If directory already exists, ensure permissions are set correctly
+        chmod($uploadDir, 0777);
     }
 
-    if ($select_image->rowCount() > 0 && $image != '') {
-        $message[] = 'please rename your image!';
-    } else {
+    if (move_uploaded_file($image_tmp_name, $image_folder)) {
+        // Modify the SQL query to include the `mod_by` field
         $insert_post = $conn->prepare("INSERT INTO `posts`(admin_id, admin_name, title, content, date, image, status, start_time, end_time) VALUES(?,?,?,?,?,?,?,?,?)");
+        // Provide a value for `mod_by` field (you can set it to $admin_id or any other appropriate value)
         $insert_post->execute([$admin_id, $admin_name, $title, $content, $date, $image, $status, $start_time, $end_time]);
-        $message[] = (isset($_POST['publish'])) ? 'post published!' : 'draft saved!';
+        return 'Post ' . ($status === 'active' ? 'published' : 'saved as draft');
+    } else {
+        return 'Error uploading image.';
     }
 }
 
-error_reporting(E_ALL & ~E_DEPRECATED);
-	
-?>
+$message = [];
+if (isset($_POST['publish'])) {
+    $message[] = savePost('active');
+}
 
+if (isset($_POST['draft'])) {
+    $message[] = savePost('deactive');
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +75,6 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 </head>
 <body>
 
-	
 <?php include 'components/admin_header.php' ?>
 
 <section class="post-editor">
@@ -107,7 +105,6 @@ error_reporting(E_ALL & ~E_DEPRECATED);
    </form>
 
 </section>
-
 
 <!-- custom js file link  -->
 <script src="js/admin_script.js"></script>
