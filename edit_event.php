@@ -156,6 +156,7 @@ if (isset($_POST['publish'])) {
          }
       }else{
          echo '<p class="empty">no events found!</p>';
+      }
    ?>
 
 </section>
