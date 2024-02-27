@@ -4,14 +4,12 @@ include 'components/connect.php'; //to connect MyPHPAdmin DB Here
 
 session_start();
 
-// Use the correct session variable name
 $admin_id = $_SESSION['admin_id'];
 
 if(!isset($admin_id)){
    header('location:admin_login.php');
 }
 
-// Use the correct form variable name
 if(isset($_POST['delete_merchandise'])) {
 	$delete_id = $_POST['merchandise_id'];
 	$delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
@@ -24,7 +22,7 @@ if(isset($_POST['delete_merchandise'])) {
 	}
 	$delete_merchandise = $conn->prepare("DELETE FROM `merchandise` WHERE id = ?");
 	$delete_merchandise->execute([$delete_id]);
-	$message[] = 'Merchandise deleted successfuly!';
+	$message[] = 'Merchandise deleted successfully!';
 }
 ?>
 
@@ -63,18 +61,12 @@ if(isset($_POST['delete_merchandise'])) {
 
    <div class="box-container">
 
-   
-
       <div class="box">
          <br><br>
          <h3> Manage Merchandise</h3>
          <br><br>
          <a href="add_merchandise.php" class="btn">add new merchandise</a>
          <br><br><br><br>
-      
-
-      <!-- ---------------------------------------------------------------------- -->
-      
 
          <div class="box-container-post">
 
@@ -100,7 +92,7 @@ if(isset($_POST['delete_merchandise'])) {
 			   <div class="mod">Modified by: <?= $fetch_merchandises['mod_by']; ?></div>
                <div class="flex-btn">
                   <a href="edit_merchandise.php?id=<?= $merchandise_id; ?>" class="option-btn">edit</a>
-                  <button type="submit" name="delete" class="delete-btn" onclick="return confirm('delete this merchandise?');">delete</button>
+                  <button type="submit" name="delete_merchandise" class="delete-btn" onclick="return confirm('delete this merchandise?');">delete</button>
                </div>
             </form>
             <?php
@@ -113,15 +105,11 @@ if(isset($_POST['delete_merchandise'])) {
          </div>
       </div>
 
-
    </div>
 
 </section>
 
 <!-- admin dashboard section ends -->
-
-
-
 
 <!-- custom js file link  -->
 <script src="js/admin_script.js"></script>
