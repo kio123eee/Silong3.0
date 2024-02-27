@@ -11,17 +11,17 @@ if(!isset($admin_id)){
 }
 
 if(isset($_POST['delete'])) {
-	$delete_id = $_POST['event_id'];
-	$delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
-	$select_image = $conn->prepare("SELECT * FROM `events` WHERE ID = ?");
-	$select_image->execute([$delete_id]);
-	$fetch_image = $select_image->fetch(PDO::FETCH_ASSOC);
-	if($fetch_image['image'] != ''){
-		unlink('/uploads/'.$fetch_image['image']);
-	}
-	$delete_event = $conn->prepare("DELETE FROM `events` WHERE id = ?");
-	$delete_event->execute([$delete_id]);
-	$message[] = 'post deleted successfuly!';
+    $delete_id = $_POST['event_id'];
+    $delete_id = filter_var($delete_id, FILTER_SANITIZE_STRING);
+    $select_image = $conn->prepare("SELECT * FROM `events` WHERE ID = ?");
+    $select_image->execute([$delete_id]);
+    $fetch_image = $select_image->fetch(PDO::FETCH_ASSOC);
+    if($fetch_image['image'] != ''){
+        unlink($_SERVER['DOCUMENT_ROOT'] . '/uploads/'.$fetch_image['image']); // Use full path
+    }
+    $delete_event = $conn->prepare("DELETE FROM `events` WHERE id = ?");
+    $delete_event->execute([$delete_id]);
+    $message[] = 'post deleted successfuly!';
 }
 ?>
 
@@ -60,18 +60,12 @@ if(isset($_POST['delete'])) {
 
    <div class="box-container">
 
-   
-
       <div class="box">
          <br><br>
          <h3> Manage Events</h3>
          <br><br>
          <a href="add_event.php" class="btn">add new event</a>
          <br><br><br><br>
-      
-
-      <!-- ---------------------------------------------------------------------- -->
-      
 
          <div class="box-container-post">
 
@@ -89,7 +83,7 @@ if(isset($_POST['delete'])) {
 			   <?= $fetch_events['status']; ?>
 			   </div>
                <?php if($fetch_events['image'] != ''){ ?>
-               <img src="../frontendPHP/<?= $fetch_events['image']; ?>" class="image" alt="">
+               <img src="uploads/<?= $fetch_events['image']; ?>" class="image" alt=""> <!-- Corrected path -->
                <?php } ?>
                <div class="title"><?= $fetch_events['title']; ?></div>
                <div class="content"><?= $fetch_events['content']; ?></div>
@@ -113,16 +107,11 @@ if(isset($_POST['delete'])) {
 
          </div>
       </div>
-
-
    </div>
 
 </section>
 
 <!-- admin dashboard section ends -->
-
-
-
 
 <!-- custom js file link  -->
 <script src="js/admin_script.js"></script>
