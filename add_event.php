@@ -10,104 +10,82 @@ if(!isset($admin_id)){
    header('location:admin_login.php');
 }
 
-if(isset($_POST['publish'])){
+<?php
+if (isset($_POST['publish'])) {
 
-   $admin_name = $_POST['admin_name'];
-   $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
-   $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $content = $_POST['content'];
-   $content = filter_var($content, FILTER_SANITIZE_STRING);
-   $location = $_POST['location'];
-   $location = filter_var($location, FILTER_SANITIZE_STRING);
-   $date = $_POST['date'];
-   $date = filter_var($date, FILTER_SANITIZE_STRING);
-   $start_time = $_POST['start_time'];
-   $start_time = filter_var($start_time, FILTER_SANITIZE_STRING);
-   $end_time = $_POST['end_time'];
-   $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
-   $status = 'active';
-   
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../frontendPHP/'.$image;
+    $admin_name = $_POST['admin_name'];
+    $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
+    $title = $_POST['title'];
+    $title = filter_var($title, FILTER_SANITIZE_STRING);
+    $content = $_POST['content'];
+    $content = filter_var($content, FILTER_SANITIZE_STRING);
+    $location = $_POST['location'];
+    $location = filter_var($location, FILTER_SANITIZE_STRING);
+    $date = $_POST['date'];
+    $date = filter_var($date, FILTER_SANITIZE_STRING);
+    $start_time = $_POST['start_time'];
+    $start_time = filter_var($start_time, FILTER_SANITIZE_STRING);
+    $end_time = $_POST['end_time'];
+    $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
+    $status = 'active';
 
-   $select_image = $conn->prepare("SELECT * FROM `events` WHERE image = ? AND admin_id = ?");
-   $select_image->execute([$image, $admin_id]);
+    $image = $_FILES['image']['name'];
+    $image_tmp_name = $_FILES['image']['tmp_name'];
+    $uploadDir = '/app/uploads/';
+    $image_folder = $uploadDir . $image;
 
-   if(isset($image)){
-      if($select_image->rowCount() > 0 AND $image != ''){
-         $message[] = 'image name repeated!';
-      }elseif($image_size > 2000000){
-         $message[] = 'images size is too large!';
-      }else{
-         move_uploaded_file($image_tmp_name, $image_folder);
-      }
-   }else{
-      $image = '';
-   }
+    // Check if the upload directory exists, create it if not
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
 
-   if($select_image->rowCount() > 0 AND $image != ''){
-      $message[] = 'please rename your image!';
-   }else{
-      $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status, mod_by) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
-$insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status, $admin_id]);
-
-      $message[] = 'event published!';
-   }
+    if (move_uploaded_file($image_tmp_name, $image_folder)) {
+        $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status, mod_by) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+        $insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status, $admin_id]);
+        $message[] = 'Event published!';
+    } else {
+        $message[] = 'Error uploading image.';
+    }
 }
 
-if(isset($_POST['draft'])){
+if (isset($_POST['draft'])) {
 
-   $admin_name = $_POST['admin_name'];
-   $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
-   $title = $_POST['title'];
-   $title = filter_var($title, FILTER_SANITIZE_STRING);
-   $content = $_POST['content'];
-   $content = filter_var($content, FILTER_SANITIZE_STRING);
-   $location = $_POST['location'];
-   $location = filter_var($location, FILTER_SANITIZE_STRING);
-   $date = $_POST['date'];
-   $date = filter_var($date, FILTER_SANITIZE_STRING);
-   $start_time = $_POST['start_time'];
-   $start_time = filter_var($start_time, FILTER_SANITIZE_STRING);
-   $end_time = $_POST['end_time'];
-   $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
-   $status = 'deactive';
-   
-   $image = $_FILES['image']['name'];
-   $image = filter_var($image, FILTER_SANITIZE_STRING);
-   $image_size = $_FILES['image']['size'];
-   $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../frontendPHP/'.$image;
+    $admin_name = $_POST['admin_name'];
+    $admin_name = filter_var($admin_name, FILTER_SANITIZE_STRING);
+    $title = $_POST['title'];
+    $title = filter_var($title, FILTER_SANITIZE_STRING);
+    $content = $_POST['content'];
+    $content = filter_var($content, FILTER_SANITIZE_STRING);
+    $location = $_POST['location'];
+    $location = filter_var($location, FILTER_SANITIZE_STRING);
+    $date = $_POST['date'];
+    $date = filter_var($date, FILTER_SANITIZE_STRING);
+    $start_time = $_POST['start_time'];
+    $start_time = filter_var($start_time, FILTER_SANITIZE_STRING);
+    $end_time = $_POST['end_time'];
+    $end_time = filter_var($end_time, FILTER_SANITIZE_STRING);
+    $status = 'deactive';
 
-   $select_image = $conn->prepare("SELECT * FROM `events` WHERE image = ?");
-   $select_image->execute([$image]);
+    $image = $_FILES['image']['name'];
+    $image_tmp_name = $_FILES['image']['tmp_name'];
+    $uploadDir = '/app/uploads/';
+    $image_folder = $uploadDir . $image;
 
-   if(isset($image)){
-      if($select_image->rowCount() > 0 AND $image != ''){
-         $message[] = 'image name repeated!';
-      }elseif($image_size > 2000000){
-         $message[] = 'images size is too large!';
-      }else{
-         move_uploaded_file($image_tmp_name, $image_folder);
-      }
-   }else{
-      $image = '';
-   }
+    // Check if the upload directory exists, create it if not
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
 
-   if($select_image->rowCount() > 0 AND $image != ''){
-      $message[] = 'please rename your image!';
-   }else{
-      $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status) VALUES(?,?,?,?,?,?,?,?,?,?)");
-      $insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status]);
-      $message[] = 'draft saved!';
-   }
+    if (move_uploaded_file($image_tmp_name, $image_folder)) {
+        $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status) VALUES(?,?,?,?,?,?,?,?,?,?)");
+        $insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status]);
+        $message[] = 'Draft saved!';
+    } else {
+        $message[] = 'Error uploading image.';
+    }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
