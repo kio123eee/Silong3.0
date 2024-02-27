@@ -38,7 +38,7 @@ if (isset($_POST['publish'])) {
         mkdir($uploadDir, 0777, true);
     } else {
     // If directory already exists, ensure permissions are set correctly
-    chmod($uploadsDir, 0777);
+    chmod($uploadDir, 0777);
     }
 
     if (move_uploaded_file($image_tmp_name, $image_folder)) {
@@ -75,18 +75,20 @@ if (isset($_POST['draft'])) {
 
     // Check if the upload directory exists, create it if not
     if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
-    }
-
-    if (move_uploaded_file($image_tmp_name, $image_folder)) {
-        $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status) VALUES(?,?,?,?,?,?,?,?,?,?)");
-        $insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status]);
-        $message[] = 'Draft saved!';
-    } else {
-        $message[] = 'Error uploading image.';
-    }
+    mkdir($uploadDir, 0777, true);
+} else {
+    // If directory already exists, ensure permissions are set correctly
+    chmod($uploadDir, 0777);
 }
-?>
+
+if (move_uploaded_file($image_tmp_name, $image_folder)) {
+    $insert_event = $conn->prepare("INSERT INTO `events`(admin_id, admin_name, title, content, location, date, start_time, end_time, image, status) VALUES(?,?,?,?,?,?,?,?,?,?)");
+    $insert_event->execute([$admin_id, $admin_name, $title, $content, $location, $date, $start_time, $end_time, $image, $status]);
+    $message[] = 'Draft saved!';
+} else {
+    $message[] = 'Error uploading image.';
+}
+} ?>
 
 
 <!DOCTYPE html>
