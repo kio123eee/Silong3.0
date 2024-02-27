@@ -34,7 +34,7 @@ if(isset($_POST['publish'])){
    $image = filter_var($image, FILTER_SANITIZE_STRING);
    $image_size = $_FILES['image']['size'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../frontendPHP/'.$image;
+   $image_folder = '/uploads/'.$image;
 
    $select_image = $conn->prepare("SELECT * FROM `events` WHERE image = ? AND admin_id = ?");
    $select_image->execute([$image, $admin_id]);
@@ -83,7 +83,7 @@ if(isset($_POST['draft'])){
    $image = filter_var($image, FILTER_SANITIZE_STRING);
    $image_size = $_FILES['image']['size'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
-   $image_folder = '../frontendPHP/'.$image;
+   $image_folder = '/uploads/'.$image;
 
    $select_image = $conn->prepare("SELECT * FROM `events` WHERE image = ?");
    $select_image->execute([$image]);
