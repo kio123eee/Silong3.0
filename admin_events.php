@@ -17,7 +17,7 @@ if(isset($_POST['delete'])) {
 	$select_image->execute([$delete_id]);
 	$fetch_image = $select_image->fetch(PDO::FETCH_ASSOC);
 	if($fetch_image['image'] != ''){
-		unlink('../frontendPHP/'.$fetch_image['image']);
+		unlink('/storage/uploads/'.$fetch_image['image']);
 	}
 	$delete_event = $conn->prepare("DELETE FROM `events` WHERE id = ?");
 	$delete_event->execute([$delete_id]);
@@ -89,7 +89,7 @@ if(isset($_POST['delete'])) {
 			   <?= $fetch_events['status']; ?>
 			   </div>
                <?php if($fetch_events['image'] != ''){ ?>
-               <img src="../frontendPHP/<?= $fetch_events['image']; ?>" class="image" alt="">
+               <img src="/storage/uploads/<?= $fetch_events['image']; ?>" class="image" alt="">
                <?php } ?>
                <div class="title"><?= $fetch_events['title']; ?></div>
                <div class="content"><?= $fetch_events['content']; ?></div>
