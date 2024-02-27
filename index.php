@@ -105,7 +105,9 @@
                 <div class="footer-center">
                     <div class="footer-links">
                         <div class="footer-logo">
-                            <img src="logohead.png" class="silong" alt="Silong Logo" a href="index.php" >
+                            <a href="index.php">
+                            <img src="logohead.png" class="silong" >
+                            </a>
                         </div>
                         <a href="#">CONTACT US</a>
                         <a href="#https://www.facebook.com/SilongPH"><i class="fab fa-facebook"></i></a>
