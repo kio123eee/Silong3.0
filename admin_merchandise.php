@@ -17,7 +17,7 @@ if(isset($_POST['delete'])) {
 	$select_image->execute([$delete_id]);
 	$fetch_image = $select_image->fetch(PDO::FETCH_ASSOC);
 	if($fetch_image['image'] != ''){
-		unlink('/uploads/'.$fetch_image['image']);
+		unlink('../frontendPHP/'.$fetch_image['image']);
 	}
 	$delete_merchandise = $conn->prepare("DELETE FROM `merchandise` WHERE id = ?");
 	$delete_merchandise->execute([$delete_id]);
