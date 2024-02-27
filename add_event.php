@@ -30,7 +30,7 @@ if (isset($_POST['publish'])) {
 
     $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $uploadDir = '/uploads';
+    $uploadDir = '/app/storage/uploads/';
     $image_folder = $uploadDir . $image;
 
     // Check if the upload directory exists, create it if not
@@ -70,7 +70,7 @@ if (isset($_POST['draft'])) {
 
     $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $uploadDir = '/app/uploads/';
+    $uploadDir = '/app/storage/uploads/';
     $image_folder = $uploadDir . $image;
 
     // Check if the upload directory exists, create it if not
