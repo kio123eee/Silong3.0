@@ -36,6 +36,9 @@ if (isset($_POST['publish'])) {
     // Check if the upload directory exists, create it if not
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true);
+    } else {
+    // If directory already exists, ensure permissions are set correctly
+    chmod($uploadsDir, 0777);
     }
 
     if (move_uploaded_file($image_tmp_name, $image_folder)) {
